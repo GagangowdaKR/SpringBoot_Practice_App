@@ -58,4 +58,31 @@ public class BookController {
     public List<Book> getBooks(){
         return bookService.getBooks();
     }
+
+    @GetMapping("/searchBookTitleLike")
+    public List<Book> searchBookTitleLike(@Valid @RequestParam String title){
+        return bookService.searchBookTitleLike(title);
+    }
+
+    @GetMapping("/searchBookTitleStartWith")
+    public List<Book> searchBookTitleStartWith(@Valid @RequestParam String title){
+        return bookService.searchBookTitleStartWith(title+'%');
+    }
+
+    @GetMapping("/searchBookEndsWith")
+    public List<Book> searchBookEndsWith(@Valid @RequestParam String title){
+        return bookService.searchBookEndsWith(title);
+    }
+
+    /* Queries */
+
+    @GetMapping("/q1")
+    public List<?> getBooksAuthorCategory(){
+        return bookService.getBooksAuthorCategory();
+    }
+
+    @GetMapping("/q3")
+    public List<?> getBooksCountInCategory(){
+        return bookService.getBooksCountInCategory();
+    }
 }

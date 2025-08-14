@@ -10,7 +10,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -60,4 +62,18 @@ public class BookIssuesController {
         return bookIssuesService.getBooksIssues();
     }
 
+    @GetMapping("/q2")
+    public List<Map<String,String>> getBorrowedBooksAndMembers(){
+        return bookIssuesService.getBorrowedBooksAndMembers();
+    }
+
+    @GetMapping("/q4")
+    public List<Map<String,String>> getBooksOnLoan(){
+        return bookIssuesService.getBooksOnLoad();
+    }
+
+    @GetMapping("/q5")
+    public List<Map<String,String>> getMembersBorrowedAfterDate(@Valid @RequestParam LocalDate date){
+        return bookIssuesService.getMembersBorrowedAfterDate(date);
+    }
 }
