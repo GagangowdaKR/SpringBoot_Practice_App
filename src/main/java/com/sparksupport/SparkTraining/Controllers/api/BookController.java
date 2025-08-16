@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -85,4 +86,16 @@ public class BookController {
     public List<?> getBooksCountInCategory(){
         return bookService.getBooksCountInCategory();
     }
+
+    @GetMapping("/q6")
+    public List<?> getBookAuthors(){
+        return bookService.getBookAuthors();
+    }
+
+    @GetMapping("/q7")
+    public List<?> getBooksNotBorrowed(){
+        return bookService.getBooksNotBorrowed();
+    }
+
+
 }
