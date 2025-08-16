@@ -19,14 +19,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/booksIssues")
 public class BookIssuesController {
 
-    @Autowired
-    private BookIssuesService bookIssuesService;
+    private final BookIssuesService bookIssuesService;
+    private final BookService bookService;
+    private final UserService userService;
 
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private UserService userService;
+    BookIssuesController(BookIssuesService bookIssuesService, BookService bookService, UserService userService){
+        this.bookIssuesService = bookIssuesService;
+        this.bookService = bookService;
+        this.userService = userService;
+    }
 
     @PostMapping("/addBookIssue")
     public BookIssues addBookIssues(@Valid @RequestBody BookIssues bookIssues){
@@ -75,5 +76,20 @@ public class BookIssuesController {
     @GetMapping("/q5")
     public List<Map<String,String>> getMembersBorrowedAfterDate(@Valid @RequestParam LocalDate date){
         return bookIssuesService.getMembersBorrowedAfterDate(date);
+    }
+
+    @GetMapping("/q8")
+    public List<?> getCountBooksBorrowedEachMember(){
+        return bookIssuesService.getCountBooksBorrowedEachMember();
+    }
+
+    @GetMapping("/q9")
+    public List<?> getMostBorrowedBook(){
+        return bookIssuesService.getMostBorrowedBook();
+    }
+
+    @GetMapping("/q10")
+    public List<?> getLoanBookDetails(){
+        return bookIssuesService.getLoanBookDetails();
     }
 }
