@@ -60,4 +60,27 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public List<Map<String,String>> getBookAuthors(){
+        return bookRepository.findBookAuthors().stream()
+                .map(anyTypeObj ->{
+                    Object[] object = (Object[]) anyTypeObj;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("Author", String.valueOf(object[1]));
+                    map.put("BookTitle", String.valueOf(object[0]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<Map<String, String>> getBooksNotBorrowed(){
+        return bookRepository.findBookNotBorrowed().stream()
+                .map(anyTypeObj ->{
+                    Object[] object = (Object[]) anyTypeObj;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("Book Id", String.valueOf(object[0]));
+                    map.put("Book Title", String.valueOf(object[1]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
 }
