@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,6 +65,45 @@ public class BookIssuesService {
                     map.put("Member",String.valueOf(object[0]));
                     map.put("BookTitle", String.valueOf(object[1]));
                     map.put("BorrowDate", String.valueOf(object[2]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<?> getCountBooksBorrowedEachMember(){
+        return bookIssuesRepository.findMemberBooksCount().stream()
+                .map(anyType ->{
+                    Object[] object = (Object[]) anyType;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("User Name", String.valueOf(object[0]));
+                    map.put("Total Books", String.valueOf(object[1]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<?> getMostBorrowedBook(){
+        return bookIssuesRepository.findMostBorrowedBook().stream()
+                .map(anyType ->{
+                    Object[] object = (Object[]) anyType;
+                    Map<String, String> map = new HashMap<>();
+                    map.put("Book Id",String.valueOf(object[0]));
+                    map.put("Book Title", String.valueOf(object[1]));
+                    map.put("Total Borrowed", String.valueOf(object[2]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<?> getLoanBookDetails(){
+        return bookIssuesRepository.findLoanBooksDetails().stream()
+                .map(anyType ->{
+                    Object[] object = (Object[]) anyType;
+                    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+                    map.put("Book Title", String.valueOf(object[0]));
+                    map.put("Member Name", String.valueOf(object[1]));
+                    map.put("Borrowed Date", String.valueOf(object[2]));
+                    map.put("Return Date", String.valueOf(object[3]));
                     return map;
                 })
                 .collect(Collectors.toList());

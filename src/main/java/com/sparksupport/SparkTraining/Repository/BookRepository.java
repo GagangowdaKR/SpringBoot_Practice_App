@@ -40,5 +40,12 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("Select c.name, count(*) from Book b join b.category c group by c")
     List<Object[]> countBooksInCategory();
 
+//    Use INNER JOIN to show book titles with author names.
+    @Query("SELECT b.title, a.name FROM Book b INNER JOIN b.author a")
+    List<?> findBookAuthors();
+
+//    Use a subquery to list books that are not currently borrowed.
+    @Query(value = "Select b.book_id, b.title from Book b where book_id not in (select book_id from Book_Issues)", nativeQuery = true)
+    List<?> findBookNotBorrowed();
 
 }
