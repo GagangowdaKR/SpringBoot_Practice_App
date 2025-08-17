@@ -8,6 +8,8 @@ import com.sparksupport.SparkTraining.Services.BookService;
 import com.sparksupport.SparkTraining.Services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -97,5 +99,13 @@ public class BookController {
         return bookService.getBooksNotBorrowed();
     }
 
+    @GetMapping("/q12")
+    public Page<?> getBooksInPages(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+        return bookService.getBooksInPages(page, size, sortBy);
+    }
 
+    @GetMapping("/q19")
+    public List<Book> getBookNeverBorrowed(){
+        return bookService.getBookNeverBorrowed();
+    }
 }

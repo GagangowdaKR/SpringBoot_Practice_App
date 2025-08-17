@@ -48,4 +48,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query(value = "Select b.book_id, b.title from Book b where book_id not in (select book_id from Book_Issues)", nativeQuery = true)
     List<?> findBookNotBorrowed();
 
+//    Display books that have never been borrowed.
+    @Query(value="SELECT * from Book b where b.book_id not in (select book_id from Book_Issues)",nativeQuery = true)
+    List<Book> findBookNeverBorrowed();
 }
