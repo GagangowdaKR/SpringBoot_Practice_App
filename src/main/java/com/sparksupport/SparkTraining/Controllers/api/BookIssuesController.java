@@ -8,8 +8,12 @@ import com.sparksupport.SparkTraining.Services.BookService;
 import com.sparksupport.SparkTraining.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -92,4 +96,36 @@ public class BookIssuesController {
     public List<?> getLoanBookDetails(){
         return bookIssuesService.getLoanBookDetails();
     }
+
+    @GetMapping("/q11")
+    public ResponseEntity<?> getLatestIssuedBookUsingPagination(int page, int size){
+        return bookIssuesService.getLatestIssuedBookUsingPagination(page,size);
+    }
+
+    @GetMapping("/q14")
+    public List<?> getAuthorMembers(){
+        return bookIssuesService.getAuthorMembers();
+    }
+
+    @GetMapping("/q15")
+    public List<?> getMemberBorrowedMoreThanAvg(){
+        return bookIssuesService.getMemberBorrowedMoreThanAvg();
+    }
+
+    @GetMapping("/q16/{val}")
+    public List<?> getMostBorrowed(@PathVariable int val){
+        return bookIssuesService.getMostBorrowed(val);
+    }
+
+    @GetMapping("/q17")
+    public List<?> getMemberBorrowedMultiCategory(){
+        return bookIssuesService.getMemberBorrowedMultiCategory();
+    }
+
+    @GetMapping("/q18/{day}")
+    public List<?> getBorrowedReturnedWithinDays(@PathVariable int day){
+        return bookIssuesService.getBorrowedReturnedWithinDays(day);
+    }
+
+
 }

@@ -5,7 +5,9 @@ import com.sparksupport.SparkTraining.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -27,5 +29,18 @@ public class UserService {
 
     public User getUserById(Integer userId){
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
+    }
+
+    public List<?> getLatestBorrowedBook() {
+        return userRepository.findLatestBorrowedBook().stream()
+                .map(anyType -> {
+                    Object[] object = (Object[]) anyType;
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("Member Name", String.valueOf(object[0]));
+                    map.put("Book Title", String.valueOf(object[1]));
+                    map.put("Issue Date", String.valueOf(object[2]));
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 }

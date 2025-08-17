@@ -6,8 +6,12 @@ import com.sparksupport.SparkTraining.Repository.BookIssuesRepository;
 import jakarta.validation.Valid;
 import org.hibernate.type.CollectionType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -108,4 +112,63 @@ public class BookIssuesService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public ResponseEntity<?> getLatestIssuedBookUsingPagination(int page, int size){
+        PageRequest pageRequest = PageRequest.of(page,size);
+        Page<?> latestBook = bookIssuesRepository.findLatestBookByPaging(pageRequest);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Books", latestBook.getContent());
+
+//        response.put("Current Page", latestBook.getNumber());
+//        response.put("Total Books", latestBook.getTotalElements());
+//        response.put("Total Pages", latestBook.getTotalPages());
+        return ResponseEntity.ok().body(response);
+    }
+
+    public List<?> getAuthorMembers(){
+        return bookIssuesRepository.findAuthorMember();
+    }
+
+    public List<?> getMemberBorrowedMoreThanAvg() {
+        return bookIssuesRepository.findMemberBorrowedMoreThanAvg();
+    }
+
+    public List<?> getMostBorrowed(int val) {
+        return bookIssuesRepository.findMostBorrowed(val).stream()
+                .map(anyType ->{
+                    Object[] object = (Object[]) anyType;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("Book Title", String.valueOf(object[0]));
+                    map.put("Total Borrow", String.valueOf(object[1]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<?> getMemberBorrowedMultiCategory() {
+        return bookIssuesRepository.findMemberBorrowedMultiCategory().stream()
+                .map(anyType ->{
+                    Object[] object = (Object[]) anyType;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("Member Name", String.valueOf(object[0]));
+                    map.put("Borrow Category Count", String.valueOf(object[1]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<?> getBorrowedReturnedWithinDays(int days) {
+        return bookIssuesRepository.findBorrowedReturnedWithinDays(days).stream()
+                .map(anyType -> {
+                    Object[] object = (Object[]) anyType;
+                    LinkedHashMap<String,String> map = new LinkedHashMap<>();
+                    map.put("Book Id",String.valueOf(object[0]));
+                    map.put("Book Title", String.valueOf(object[1]));
+                    map.put("Issue Date",String.valueOf(object[2]));
+                    map.put("Return Date", String.valueOf(object[3]));
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

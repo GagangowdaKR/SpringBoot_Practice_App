@@ -4,6 +4,10 @@ import com.sparksupport.SparkTraining.Entity.Book;
 import com.sparksupport.SparkTraining.Repository.BookRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -82,5 +86,17 @@ public class BookService {
                     return map;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public Page<Book> getBooksInPages(int page, int size, String sortBy){
+        Sort sort = Sort.by(sortBy).ascending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<Book> book = bookRepository.findAll(pageRequest);
+        return book;
+    }
+
+
+    public List<Book> getBookNeverBorrowed() {
+        return bookRepository.findBookNeverBorrowed();
     }
 }

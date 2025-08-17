@@ -28,4 +28,9 @@ public class UserController {
     public List<User> getUsers(){
         return userService.getUsers();
     }
+
+    @GetMapping("/q20")
+    public List<?> getLatestBorrowedBook(){
+        return userService.getLatestBorrowedBook();
+    }
 }
