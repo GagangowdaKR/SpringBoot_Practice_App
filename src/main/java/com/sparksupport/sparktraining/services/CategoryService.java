@@ -1,9 +1,8 @@
-package com.sparksupport.SparkTraining.Services;
+package com.sparksupport.sparktraining.services;
 
-import com.sparksupport.SparkTraining.Entity.Category;
-import com.sparksupport.SparkTraining.Repository.CategoryRepository;
+import com.sparksupport.sparktraining.entity.Category;
+import com.sparksupport.sparktraining.repository.CategoryRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +10,11 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public Category addCategory(Category category){
         return categoryRepository.save(category);

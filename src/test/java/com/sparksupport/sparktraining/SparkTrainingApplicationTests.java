@@ -1,4 +1,4 @@
-package com.sparksupport.SparkTraining;
+package com.sparksupport.sparktraining;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
