@@ -1,4 +1,4 @@
-package com.sparksupport.SparkTraining;
+package com.sparksupport.sparktraining;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

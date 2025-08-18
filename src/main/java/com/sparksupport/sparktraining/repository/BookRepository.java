@@ -1,6 +1,6 @@
-package com.sparksupport.SparkTraining.Repository;
+package com.sparksupport.sparktraining.repository;
 
-import com.sparksupport.SparkTraining.Entity.Book;
+import com.sparksupport.sparktraining.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -33,7 +33,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 //        List all books with their author and category.
     @Query("SELECT b.title, a.name, c.name FROM Book b JOIN b.author a JOIN b.category c")
-    List<?> findAllBooksAuthorCategory();
+    List<Object[]> findAllBooksAuthorCategory();
 
 
 //    Count how many books are available per category.
@@ -42,11 +42,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
 //    Use INNER JOIN to show book titles with author names.
     @Query("SELECT b.title, a.name FROM Book b INNER JOIN b.author a")
-    List<?> findBookAuthors();
+    List<Object[]> findBookAuthors();
 
 //    Use a subquery to list books that are not currently borrowed.
     @Query(value = "Select b.book_id, b.title from Book b where book_id not in (select book_id from Book_Issues)", nativeQuery = true)
-    List<?> findBookNotBorrowed();
+    List<Object[]> findBookNotBorrowed();
 
 //    Display books that have never been borrowed.
     @Query(value="SELECT * from Book b where b.book_id not in (select book_id from Book_Issues)",nativeQuery = true)

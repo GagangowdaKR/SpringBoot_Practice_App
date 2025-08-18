@@ -1,6 +1,6 @@
-package com.sparksupport.SparkTraining.Repository;
+package com.sparksupport.sparktraining.repository;
 
-import com.sparksupport.SparkTraining.Entity.Category;
+import com.sparksupport.sparktraining.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

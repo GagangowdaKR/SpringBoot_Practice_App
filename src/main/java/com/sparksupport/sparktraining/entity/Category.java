@@ -1,4 +1,4 @@
-package com.sparksupport.SparkTraining.Entity;
+package com.sparksupport.sparktraining.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

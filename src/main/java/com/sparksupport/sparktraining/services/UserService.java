@@ -1,19 +1,22 @@
-package com.sparksupport.SparkTraining.Services;
+package com.sparksupport.sparktraining.services;
 
-import com.sparksupport.SparkTraining.Entity.User;
-import com.sparksupport.SparkTraining.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sparksupport.sparktraining.entity.User;
+import com.sparksupport.sparktraining.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User addUser(User user){
         return userRepository.save(user);
@@ -31,10 +34,9 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not Found"));
     }
 
-    public List<?> getLatestBorrowedBook() {
+    public List<Map<String, String>> getLatestBorrowedBook() {
         return userRepository.findLatestBorrowedBook().stream()
-                .map(anyType -> {
-                    Object[] object = (Object[]) anyType;
+                .map(object -> {
                     HashMap<String, String> map = new HashMap<>();
                     map.put("Member Name", String.valueOf(object[0]));
                     map.put("Book Title", String.valueOf(object[1]));

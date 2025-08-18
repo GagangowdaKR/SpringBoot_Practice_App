@@ -1,25 +1,26 @@
-package com.sparksupport.SparkTraining.Services;
+package com.sparksupport.sparktraining.services;
 
-import com.sparksupport.SparkTraining.Entity.Book;
-import com.sparksupport.SparkTraining.Repository.BookRepository;
+import com.sparksupport.sparktraining.entity.Book;
+import com.sparksupport.sparktraining.repository.BookRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+
+    private final BookRepository bookRepository;
+
+    BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public Book addBook(Book book) {
         return bookRepository.save(book);
@@ -49,50 +50,47 @@ public class BookService {
         return bookRepository.findByTitleEndingWith(title);
     }
 
-    public List<?> getBooksAuthorCategory() {
+    public List<Object[]> getBooksAuthorCategory() {
         return bookRepository.findAllBooksAuthorCategory();
     }
 
     public List<Map<String,String>> getBooksCountInCategory() {
         return bookRepository.countBooksInCategory().stream()
-                .map((obj) ->{
+                .map(obj -> {
                     Map<String, String> map = new HashMap<>();
                     map.put("Category", String.valueOf(obj[0]));
                     map.put("BookCount", String.valueOf(obj[1]));
                     return map;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Map<String,String>> getBookAuthors(){
         return bookRepository.findBookAuthors().stream()
-                .map(anyTypeObj ->{
-                    Object[] object = (Object[]) anyTypeObj;
+                .map(object -> {
                     Map<String,String> map = new HashMap<>();
                     map.put("Author", String.valueOf(object[1]));
                     map.put("BookTitle", String.valueOf(object[0]));
                     return map;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Map<String, String>> getBooksNotBorrowed(){
         return bookRepository.findBookNotBorrowed().stream()
-                .map(anyTypeObj ->{
-                    Object[] object = (Object[]) anyTypeObj;
+                .map(object -> {
                     Map<String,String> map = new HashMap<>();
                     map.put("Book Id", String.valueOf(object[0]));
                     map.put("Book Title", String.valueOf(object[1]));
                     return map;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Page<Book> getBooksInPages(int page, int size, String sortBy){
         Sort sort = Sort.by(sortBy).ascending();
         PageRequest pageRequest = PageRequest.of(page, size, sort);
-        Page<Book> book = bookRepository.findAll(pageRequest);
-        return book;
+        return bookRepository.findAll(pageRequest);
     }
 
 

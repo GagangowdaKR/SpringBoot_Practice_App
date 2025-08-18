@@ -1,6 +1,6 @@
-package com.sparksupport.SparkTraining.Repository;
+package com.sparksupport.sparktraining.repository;
 
-import com.sparksupport.SparkTraining.Entity.User;
+import com.sparksupport.sparktraining.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "WHERE user_id = bi.user_id " +
             "ORDER BY issue_date DESC " +
             "LIMIT 1)", nativeQuery = true)
-    List<?> findLatestBorrowedBook();
+    List<Object[]> findLatestBorrowedBook();
 }

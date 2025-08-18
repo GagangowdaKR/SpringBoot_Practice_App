@@ -1,33 +1,35 @@
-package com.sparksupport.SparkTraining.Controllers.api;
+package com.sparksupport.sparktraining.controllers.api;
 
-import com.sparksupport.SparkTraining.Entity.Author;
-import com.sparksupport.SparkTraining.Entity.Book;
-import com.sparksupport.SparkTraining.Entity.Category;
-import com.sparksupport.SparkTraining.Services.AuthorService;
-import com.sparksupport.SparkTraining.Services.BookService;
-import com.sparksupport.SparkTraining.Services.CategoryService;
+import com.sparksupport.sparktraining.entity.Author;
+import com.sparksupport.sparktraining.entity.Book;
+import com.sparksupport.sparktraining.entity.Category;
+import com.sparksupport.sparktraining.services.AuthorService;
+import com.sparksupport.sparktraining.services.BookService;
+import com.sparksupport.sparktraining.services.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    BookController(BookService bookService,
+                   AuthorService authorService,
+                   CategoryService categoryService) {
+        this.bookService = bookService;
+        this.authorService = authorService;
+        this.categoryService = categoryService;
+    }
 
     @PostMapping("/addBook")
     public Book addBook(@Valid @RequestBody Book book){
@@ -80,27 +82,27 @@ public class BookController {
     /* Queries */
 
     @GetMapping("/q1")
-    public List<?> getBooksAuthorCategory(){
+    public List<Object[]> getBooksAuthorCategory() {
         return bookService.getBooksAuthorCategory();
     }
 
     @GetMapping("/q3")
-    public List<?> getBooksCountInCategory(){
+    public List<Map<String, String>> getBooksCountInCategory() {
         return bookService.getBooksCountInCategory();
     }
 
     @GetMapping("/q6")
-    public List<?> getBookAuthors(){
+    public List<Map<String, String>> getBookAuthors() {
         return bookService.getBookAuthors();
     }
 
     @GetMapping("/q7")
-    public List<?> getBooksNotBorrowed(){
+    public List<Map<String, String>> getBooksNotBorrowed() {
         return bookService.getBooksNotBorrowed();
     }
 
     @GetMapping("/q12")
-    public Page<?> getBooksInPages(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy){
+    public Page<Book> getBooksInPages(@RequestParam int page, @RequestParam int size, @RequestParam String sortBy) {
         return bookService.getBooksInPages(page, size, sortBy);
     }
 

@@ -1,9 +1,8 @@
-package com.sparksupport.SparkTraining.Controllers.api;
+package com.sparksupport.sparktraining.controllers.api;
 
-import com.sparksupport.SparkTraining.Entity.Author;
-import com.sparksupport.SparkTraining.Services.AuthorService;
+import com.sparksupport.sparktraining.entity.Author;
+import com.sparksupport.sparktraining.services.AuthorService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +11,12 @@ import java.util.List;
 @RequestMapping("/api/authors")
 public class AuthorController {
 
-    @Autowired
-    private AuthorService authorService;
+
+    private final AuthorService authorService;
+
+    AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
     @PostMapping("/addAuthor")
     public Author addAuthor(@Valid @RequestBody Author author){

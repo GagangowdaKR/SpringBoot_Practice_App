@@ -1,23 +1,18 @@
-package com.sparksupport.SparkTraining.Controllers.api;
+package com.sparksupport.sparktraining.controllers.api;
 
-import com.sparksupport.SparkTraining.Entity.Book;
-import com.sparksupport.SparkTraining.Entity.BookIssues;
-import com.sparksupport.SparkTraining.Entity.User;
-import com.sparksupport.SparkTraining.Services.BookIssuesService;
-import com.sparksupport.SparkTraining.Services.BookService;
-import com.sparksupport.SparkTraining.Services.UserService;
+import com.sparksupport.sparktraining.entity.Book;
+import com.sparksupport.sparktraining.entity.BookIssues;
+import com.sparksupport.sparktraining.entity.User;
+import com.sparksupport.sparktraining.services.BookIssuesService;
+import com.sparksupport.sparktraining.services.BookService;
+import com.sparksupport.sparktraining.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/booksIssues")
@@ -49,7 +44,7 @@ public class BookIssuesController {
     @PostMapping("/addBooksIssues")
     public List<BookIssues> addBooksIssues(@Valid @RequestBody List<BookIssues> booksIssues){
         return booksIssues.stream()
-                .map((issueBook) -> {
+                .map(issueBook -> {
                     Book book = bookService.getBookById(issueBook.getBook().getBookId());
                     User user = userService.getUserById(issueBook.getUser().getUserId());
                     BookIssues newIssues = new BookIssues();
@@ -59,7 +54,7 @@ public class BookIssuesController {
                     newIssues.setReturnDate(issueBook.getReturnDate());
                     newIssues.setIssueId(issueBook.getIssueId());
                     return bookIssuesService.addBookIssues(newIssues);
-                }).collect(Collectors.toList());
+                }).toList();
     }
 
     @GetMapping("/getBooksIssues")
@@ -83,47 +78,47 @@ public class BookIssuesController {
     }
 
     @GetMapping("/q8")
-    public List<?> getCountBooksBorrowedEachMember(){
+    public List<Map<String, String>> getCountBooksBorrowedEachMember() {
         return bookIssuesService.getCountBooksBorrowedEachMember();
     }
 
     @GetMapping("/q9")
-    public List<?> getMostBorrowedBook(){
+    public List<Map<String, String>> getMostBorrowedBook() {
         return bookIssuesService.getMostBorrowedBook();
     }
 
     @GetMapping("/q10")
-    public List<?> getLoanBookDetails(){
+    public List<Map<String, String>> getLoanBookDetails() {
         return bookIssuesService.getLoanBookDetails();
     }
 
     @GetMapping("/q11")
-    public ResponseEntity<?> getLatestIssuedBookUsingPagination(int page, int size){
+    public ResponseEntity<Map<String, Object>> getLatestIssuedBookUsingPagination(int page, int size) {
         return bookIssuesService.getLatestIssuedBookUsingPagination(page,size);
     }
 
     @GetMapping("/q14")
-    public List<?> getAuthorMembers(){
+    public List<String> getAuthorMembers() {
         return bookIssuesService.getAuthorMembers();
     }
 
     @GetMapping("/q15")
-    public List<?> getMemberBorrowedMoreThanAvg(){
+    public List<Object[]> getMemberBorrowedMoreThanAvg() {
         return bookIssuesService.getMemberBorrowedMoreThanAvg();
     }
 
     @GetMapping("/q16/{val}")
-    public List<?> getMostBorrowed(@PathVariable int val){
+    public List<Map<String, String>> getMostBorrowed(@PathVariable int val) {
         return bookIssuesService.getMostBorrowed(val);
     }
 
     @GetMapping("/q17")
-    public List<?> getMemberBorrowedMultiCategory(){
+    public List<Map<String, String>> getMemberBorrowedMultiCategory() {
         return bookIssuesService.getMemberBorrowedMultiCategory();
     }
 
     @GetMapping("/q18/{day}")
-    public List<?> getBorrowedReturnedWithinDays(@PathVariable int day){
+    public List<Map<String, String>> getBorrowedReturnedWithinDays(@PathVariable int day) {
         return bookIssuesService.getBorrowedReturnedWithinDays(day);
     }
 

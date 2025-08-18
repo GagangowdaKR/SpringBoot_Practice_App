@@ -1,10 +1,9 @@
-package com.sparksupport.SparkTraining.Entity;
+package com.sparksupport.sparktraining.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class BookIssues {

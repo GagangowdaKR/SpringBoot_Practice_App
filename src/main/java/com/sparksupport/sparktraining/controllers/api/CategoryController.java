@@ -1,9 +1,8 @@
-package com.sparksupport.SparkTraining.Controllers.api;
+package com.sparksupport.sparktraining.controllers.api;
 
-import com.sparksupport.SparkTraining.Entity.Category;
-import com.sparksupport.SparkTraining.Services.CategoryService;
+import com.sparksupport.sparktraining.entity.Category;
+import com.sparksupport.sparktraining.services.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +11,15 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+
+    private final CategoryService categoryService;
+
+    CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @PostMapping("/addCategory")
     public Category addCategory(@Valid @RequestBody Category category){
-        System.out.println(category);
         return categoryService.addCategory(category);
     }
     @PostMapping("/addCategories")
