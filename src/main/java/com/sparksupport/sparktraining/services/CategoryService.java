@@ -1,6 +1,8 @@
 package com.sparksupport.sparktraining.services;
 
 import com.sparksupport.sparktraining.entity.Category;
+import com.sparksupport.sparktraining.exceptions.CategoryNotFoundException;
+import com.sparksupport.sparktraining.exceptions.InvalidRequestException;
 import com.sparksupport.sparktraining.repository.CategoryRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Integer categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found"));
+        if (categoryId <= 0) {
+            throw new InvalidRequestException("Category id must be greater than 0");
+        }
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category id " + categoryId + " not found"));
     }
 }

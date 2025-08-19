@@ -1,6 +1,8 @@
 package com.sparksupport.sparktraining.services;
 
 import com.sparksupport.sparktraining.entity.BookIssues;
+import com.sparksupport.sparktraining.exceptions.InvalidRequestException;
+import com.sparksupport.sparktraining.exceptions.NullValueException;
 import com.sparksupport.sparktraining.repository.BookIssuesRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ public class BookIssuesService {
     }
 
     public BookIssues addBookIssues(BookIssues bookIssues){
+        if (bookIssues == null) throw new NullValueException("Book Issues Object can't be null");
         return bookIssuesRepository.save(bookIssues);
     }
 
@@ -33,9 +36,9 @@ public class BookIssuesService {
 
     public List<Map<String,String>> getBorrowedBooksAndMembers() {
         // Converting List of Object[] into List of Map<> by defining the key and value
-
         return bookIssuesRepository.findAllBorrowedBookAndMembers().stream()
                 .map(object -> {
+                    if (object == null) throw new NullValueException("Null Value Found In DataBase");
                     Map<String,String> hm = new HashMap<>();
                     hm.put("Book Name", String.valueOf(object[0]));
                     hm.put("MemberName", String.valueOf(object[1]));
@@ -112,7 +115,6 @@ public class BookIssuesService {
         return ResponseEntity.ok(response);
     }
 
-
     public List<String> getAuthorMembers() {
         return bookIssuesRepository.findAuthorMember();
     }
@@ -122,6 +124,7 @@ public class BookIssuesService {
     }
 
     public List<Map<String, String>> getMostBorrowed(int val) {
+        if (val < 0) throw new InvalidRequestException("Top most borrowed number can't be less than zero");
         return bookIssuesRepository.findMostBorrowed(val).stream()
                 .map(object -> {
                     Map<String,String> map = new HashMap<>();
@@ -144,6 +147,8 @@ public class BookIssuesService {
     }
 
     public List<Map<String, String>> getBorrowedReturnedWithinDays(int days) {
+        if (days < 0)
+            throw new InvalidRequestException("Returned date - Borrowed date should at least 1, can't be less than zero");
         return bookIssuesRepository.findBorrowedReturnedWithinDays(days).stream()
                 .map(object -> {
                     LinkedHashMap<String,String> map = new LinkedHashMap<>();

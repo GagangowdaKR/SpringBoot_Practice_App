@@ -31,4 +31,9 @@ public class CategoryController {
     public List<Category> getCategories(){
         return categoryService.getCategories();
     }
+
+    @GetMapping("/category/{id}")
+    public Category getCategoryById(@PathVariable int id) {
+        return categoryService.getCategoryById(id);
+    }
 }

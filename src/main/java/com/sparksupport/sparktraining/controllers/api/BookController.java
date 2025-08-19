@@ -71,7 +71,7 @@ public class BookController {
 
     @GetMapping("/searchBookTitleStartWith")
     public List<Book> searchBookTitleStartWith(@Valid @RequestParam String title){
-        return bookService.searchBookTitleStartWith(title+'%');
+        return bookService.searchBookTitleStartWith(title);
     }
 
     @GetMapping("/searchBookEndsWith")
