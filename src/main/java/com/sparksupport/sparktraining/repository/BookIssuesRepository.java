@@ -46,8 +46,7 @@ public interface BookIssuesRepository extends JpaRepository<BookIssues, Integer>
         List<?> findMostBorrowedBook();
 
         OR
-
-     */
+*/
     @Query(value = """
             SELECT bi.book_id, (SELECT b.title FROM book b WHERE b.book_id = bi.book_id), COUNT(*) AS total
             FROM book_issues bi

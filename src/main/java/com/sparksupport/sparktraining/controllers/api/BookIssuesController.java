@@ -31,7 +31,7 @@ public class BookIssuesController {
     @PostMapping("/addBookIssue")
     public BookIssues addBookIssues(@Valid @RequestBody BookIssues bookIssues){
         Book book = bookService.getBookById(bookIssues.getBook().getBookId());
-        User user = userService.getUserById(bookIssues.getUser().getUserId());
+        User user = userService.getUserById(bookIssues.getUser().getUserId()).getBody();
         BookIssues newIssues = new BookIssues();
         newIssues.setBook(book);
         newIssues.setUser(user);
@@ -46,7 +46,7 @@ public class BookIssuesController {
         return booksIssues.stream()
                 .map(issueBook -> {
                     Book book = bookService.getBookById(issueBook.getBook().getBookId());
-                    User user = userService.getUserById(issueBook.getUser().getUserId());
+                    User user = userService.getUserById(issueBook.getUser().getUserId()).getBody();
                     BookIssues newIssues = new BookIssues();
                     newIssues.setBook(book);
                     newIssues.setUser(user);

@@ -1,8 +1,8 @@
 package com.sparksupport.sparktraining.services;
 
 import com.sparksupport.sparktraining.entity.Book;
+import com.sparksupport.sparktraining.exceptions.NullValueException;
 import com.sparksupport.sparktraining.repository.BookRepository;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +26,8 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<Book> addBooks(@Valid List<Book> books) {
+    public List<Book> addBooks(List<Book> books) {
+        if (books.isEmpty()) throw new NullValueException("At least one or more book is required");
         return bookRepository.saveAll(books);
     }
 
@@ -35,18 +36,25 @@ public class BookService {
     }
 
     public Book getBookById(Integer bookId){
+        if (bookId < 0) throw new NullValueException("Book Id Can't Be Negative");
         return bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book Not Found"));
     }
 
     public List<Book> searchBookTitleLike(String name){
+        if (name.isEmpty() || name.equals("null"))
+            throw new NullValueException("Book Name Can't Be Null, Specify the name to search");
         return bookRepository.findByTitleLike('%'+name+'%');
     }
 
     public List<Book> searchBookTitleStartWith(String title) {
-        return bookRepository.findByTitleStartWith(title);
+        if (title.isEmpty() || title.equals("null"))
+            throw new NullValueException("Book Name Can't Be Null, Specify the 'starting name' to search");
+        return bookRepository.findByTitleStartWith(title + '%');
     }
 
     public List<Book> searchBookEndsWith(String title){
+        if (title.isEmpty() || title.equals("null"))
+            throw new NullValueException("Book Name Can't Be Null, Specify the 'ending name' to search");
         return bookRepository.findByTitleEndingWith(title);
     }
 

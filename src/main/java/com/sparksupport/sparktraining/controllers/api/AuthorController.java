@@ -32,4 +32,9 @@ public class AuthorController {
     public List<Author> getAuthors(){
         return authorService.getAuthors();
     }
+
+    @GetMapping("/author/{id}")
+    public Author getAuthors(@PathVariable int id) {
+        return authorService.getAuthorById(id);
+    }
 }
