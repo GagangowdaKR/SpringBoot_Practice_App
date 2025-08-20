@@ -68,5 +68,9 @@ public class UserService {
         return "Logs are printed on the console...";
     }
 
+    // Test purpose
 
+    public String getUserNameById(Integer userId) {
+        return userRepository.findNameById(userId);
+    }
 }

@@ -3,6 +3,7 @@ package com.sparksupport.sparktraining.repository;
 import com.sparksupport.sparktraining.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "ORDER BY issue_date DESC " +
             "LIMIT 1)", nativeQuery = true)
     List<Object[]> findLatestBorrowedBook();
+
+    @Query("SELECT u.name FROM User u WHERE u.userId = :Id")
+    public String findNameById(@Param("Id") Integer id);
 }
