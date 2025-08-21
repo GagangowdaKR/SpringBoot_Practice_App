@@ -45,4 +45,8 @@ public class AuthorService {
         return authorRepository.findById(authorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Author not found, id = " + authorId));
     }
+
+    public void deleteById(Integer authorId) {
+        authorRepository.deleteById(authorId);
+    }
 }
